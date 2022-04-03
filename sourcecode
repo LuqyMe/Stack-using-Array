@@ -1,66 +1,85 @@
 #include <iostream>
-#define MAX 5
 using namespace std;
 
-int peek(int *stack) {
-	int i = 0;
-	while(stack[i] != '\0') {
-		i++;
-	}
-	return i;
+int maksimal = 5;
+string array[5];
+int top = 0;
+
+bool isFull()
+{
+  if( top == maksimal ){
+    return true;
+  }else{
+    return false;
+  }
 }
-void push(int *stack, int **top, int value) {
-	if(peek(stack) < MAX) {
-		if((*top) == nullptr) {
-			*stack = value;
-			(*top) = stack; 
-		} else {
-			(*top) = ((*top) + 1);
-			*(*top) = value;	
-		}
-	} else std::cout << "Stack Overflow\n";
+
+bool isEmpty()
+{
+  if( top == 0 ){
+    return true;
+  }else{
+    return false;
+  }
 }
-void pop(int *stack, int **top) {
-	if((*top) == nullptr) cout << "Stack Underflow\n" << endl;
-	else if(peek(stack) == 1) {
-		stack[0] = '\0';
-		(*top) = nullptr;
-	} else {
-		*(*top) = '\0';
-		(*top) = ((*top) - 1);
-	}
+
+void push(string data){
+  if( isFull() ){
+    cout << "Data penuh" << endl;
+  }else{
+    array[top] = data;
+    top++;
+  }
 }
-void display(int **top) {
-	int *cur = (*top);
-	int i = 1;
-	while(*cur != '\0') {
-		cout << *cur << "\n" << endl;
-		cur = (cur - 1);
-	}
-	cout << "===============================\n" << endl;
+
+void pop()
+{
+  if( isEmpty() ){
+    cout << "Data kosong!!" << endl;
+  }else{
+    array[top-1] = "";
+    top--;
+  }
 }
-int main() {
-	int stack[MAX] = {NULL}, *top = nullptr;
-	
-	push(stack, &top, 5);
-	push(stack, &top, 6);
-	push(stack, &top, 7);
-	push(stack, &top, 8);
-	push(stack, &top, 9);
-	push(stack, &top, 10);
-	
-	display(&top);
-	
-	pop(stack, &top);
-	pop(stack, &top);
-	pop(stack, &top);
-	
-	display(&top);
-	
-	push(stack, &top, 9);
-	push(stack, &top, 10);
-	
-	display(&top);
-	
-	return 0;
+
+void display(){
+  if( isEmpty() ){
+    cout << "Data kosong!!" << endl;
+  }else{
+    cout << "Data stack array : " << endl;
+    for( int i = maksimal - 1; i >= 0; i-- ){
+      if( array[i] != "" ){
+        cout << "Data : " << array[i] << endl;
+      }
+    }
+    cout << "\n" << endl;
+  }
+}
+
+void peek(int posisi){
+  if( isEmpty() ){
+    cout << "Data kosong!!" << endl;
+  }else{
+    int index = top;
+    for( int i = 0; i < posisi; i++ ){
+      index--;
+    }
+    cout << "Data posisi ke-" << posisi << " : " << array[index] << endl;
+  }
+}
+
+int main(){
+
+  push("a");
+  push("b");
+  push("c");
+  push("d");
+  push("e");
+  display();
+
+  pop();
+  display();
+
+  peek(3);
+
 }
